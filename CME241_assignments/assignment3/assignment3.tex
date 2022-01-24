@@ -1,0 +1,67 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 3}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+\hspace{1em}For a deterministic Policy, $\pi_{D}: \mathcal{S}\rightarrow \mathcal{A}$, i.e., $\pi_{D}(s) = a$, where $s\in \mathcal{S}, a\in\mathcal{A}$.\\
+MDP(State-Value Function) Bellman Policy Equation $V^{\pi_{D}}: \mathcal{N} \rightarrow \mathbb{R}$:
+$$
+V^{\pi_{D}}(s)=\mathcal{R}(s, \pi_{D}(s))+\gamma \cdot \sum_{s^{\prime} \in \mathcal{N}} \mathcal{P}\left(s,\pi_{D}(s) , s^{\prime}\right) \cdot V^{\pi_{D}}\left(s^{\prime}\right)
+$$
+Action-Value Function (for policy $\pi_{D}$) $Q^{\pi_{D}}: \mathcal{N} \times \mathcal{A} \rightarrow \mathbb{R}$:
+$$Q^{\pi_{D}}(s, \pi_{D}(s))=\mathcal{R}(s, \pi_{D}(s))+\gamma \cdot \sum_{s^{\prime} \in \mathcal{N}} \mathcal{P}\left(s,\pi_{D}(s) , s^{\prime}\right) \cdot V^{\pi_{D}}\left(s^{\prime}\right)
+$$
+$$
+V^{\pi_{D}}(s)=Q^{\pi_{D}}(s, \pi_{D}(s))
+$$
+
+$$
+Q^{\pi_{D}}(s, \pi_{D}(s))=\mathcal{R}(s, \pi_{D}(s))+\gamma \cdot \sum_{s^{\prime} \in \mathcal{N}} \mathcal{P}\left(s, \pi_{D}(s), s^{\prime}\right)   \cdot Q^{\pi_{D}}\left(s^{\prime}, \pi_{D}(s^{\prime})\right)
+$$
+
+\section*{Problem 2}
+
+\textcolor{blue}{TBD}
+
+\section*{Problem 3}
+\textcolor{blue}{TBD}
+
+\section*{Problem 4}
+MDP State-Value Function Bellman Optimality Equation:
+$$
+V^{*}(s)=\max _{a \in \mathcal{A}}\left\{\mathcal{R}(s, a)+\gamma \cdot \sum_{s^{\prime} \in \mathcal{N}} \mathcal{P}\left(s, a, s^{\prime}\right) \cdot V^{*}\left(s^{\prime}\right)\right\}
+$$
+Consider the myopic case ($\gamma = 0$) and $S^{\prime}\sim \mathcal{N}(s,\,\sigma^{2})$:
+$$
+V^{*}(s)=\max _{a \in \mathcal{A}}\mathcal{R}(s, a) = \max _{a \in \mathcal{A}}\sum_{s^{\prime} \in \mathbb{R}} \mathcal{P}_{S^{\prime}}\left( s^{\prime}\right)\cdot e ^{as^{\prime}} = \max _{a \in \mathcal{A}}\mathbb{E}[e^{as^{\prime}}] = \max _{a \in \mathcal{A}} M_{S^{\prime}}(a)
+$$
+$$
+ M_{S^{\prime}}(a)=e^{sa+\frac{\sigma^2 a^2}{2}}
+$$
+
+
+
+
+
+
+
+\end{document}
