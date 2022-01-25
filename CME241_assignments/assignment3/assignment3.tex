@@ -39,8 +39,26 @@ Q^{\pi_{D}}(s, \pi_{D}(s))=\mathcal{R}(s, \pi_{D}(s))+\gamma \cdot \sum_{s^{\pri
 $$
 
 \section*{Problem 2}
-
-\textcolor{blue}{TBD}
+MDP State-Value Function Bellman Optimality Equation:
+$$
+V^{*}(s)=\max _{a \in \mathcal{A}}\left\{\mathcal{R}(s, a)+\gamma \cdot \sum_{s^{\prime} \in \mathcal{N}} \mathcal{P}\left(s, a, s^{\prime}\right) \cdot V^{*}\left(s^{\prime}\right)\right\}
+$$
+In this problem, $\mathcal{A}=[0,1 ]$ and $\gamma = 0.5$:
+$$
+V^{*}(s)=\max _{a \in [0,1]}\left\{\mathcal{R}(s, a)+ 0.5 \cdot \sum_{s^{\prime} \in \mathcal{N}} \mathcal{P}\left(s, a, s^{\prime}\right) \cdot V^{*}\left(s^{\prime}\right)\right\}
+$$
+and we write explicitly:
+$$
+V^{*}(s)=\max _{a \in [0,1]}\left\{a(1-a)+(1-a)(1+a) + 0.5 \cdot[V^{*}(s+1)\cdot a + V^{*}(s)\cdot (1-a)] \right\}
+$$
+Notice that $\mathcal{R}(s, a)$ does not depend on $s$. Hence, $V^{*}(s) = V^{*}(s+1)$. Therefore,
+$$
+V^{*}(s)=\max _{a \in [0,1]}\left\{a(1-a)+(1-a)(1+a) + 0.5 \cdot V^{*}(s+1) \right\}  \Longrightarrow a = 0.25
+$$
+$$
+V^{*}(s)=1.125+ 0.5 \cdot V^{*}(s+1) 
+$$
+and the optimal deterministic policy $\pi_{D}(s)= 0.25 \text{ }\forall s \in \mathcal{S}$
 
 \section*{Problem 3}
 \textcolor{blue}{TBD}
@@ -52,12 +70,16 @@ V^{*}(s)=\max _{a \in \mathcal{A}}\left\{\mathcal{R}(s, a)+\gamma \cdot \sum_{s^
 $$
 Consider the myopic case ($\gamma = 0$) and $S^{\prime}\sim \mathcal{N}(s,\,\sigma^{2})$:
 $$
-V^{*}(s)=\max _{a \in \mathcal{A}}\mathcal{R}(s, a) = \max _{a \in \mathcal{A}}\sum_{s^{\prime} \in \mathbb{R}} \mathcal{P}_{S^{\prime}}\left( s^{\prime}\right)\cdot e ^{as^{\prime}} = \max _{a \in \mathcal{A}}\mathbb{E}[e^{as^{\prime}}] = \max _{a \in \mathcal{A}} M_{S^{\prime}}(a)
+V^{*}(s)=\max _{a \in \mathcal{A}}\mathcal{R}(s, a) = \max _{a \in \mathcal{A}}\sum_{s^{\prime} \in \mathbb{R}} \mathcal{P}_{S^{\prime}}\left( s^{\prime}\right)\cdot [-e ^{as^{\prime}}] = \max _{a \in \mathcal{A}}\mathbb{E}[-e^{as^{\prime}}] = \min _{a \in \mathcal{A}} M_{S^{\prime}}(a)
 $$
 $$
  M_{S^{\prime}}(a)=e^{sa+\frac{\sigma^2 a^2}{2}}
 $$
-
+To find $a$ which maximizes the moment generating function, we take derivative w.r.t. $a$.\\
+$$
+ e^{sa+\frac{\sigma^2 a^2}{2}}\cdot (s + \sigma^2 a) = 0 \Longrightarrow s + \sigma^2 a = 0 \Longrightarrow a = \frac{-s}{\sigma^2}
+$$\\
+Hence, the optimal action $a^{*}$ for state $s$ is $\frac{-s}{\sigma^2}$ and the corresponding optimal cost is $V^{*}(s) = e^{\frac{-s^2}{\sigma^2} + \frac{s^2}{2\sigma^2}}$
 
 
 
