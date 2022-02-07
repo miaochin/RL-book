@@ -1,5 +1,4 @@
-# Our PDFs are all generated
-*.pdf
+
 
 # Emacs files
 *~
@@ -16,6 +15,15 @@ __pycache__
 *.dvi
 *.log
 *.out.ps
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.ps
+*.synctex.gz
 latex/Alon.cls
 latex/epigrafica.sty
 lgrenc.def
+
+.DS_Store
