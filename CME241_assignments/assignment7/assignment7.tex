@@ -1,0 +1,119 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 7}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+Derive the solution to Merton's Portfolio problem for the case of the log($\cdot$) Utility function. The goal is to find the optimal allocation and consumption at each time to maximize lifetime-aggregated expected utility of consumption.
+Assumption:
+\begin{enumerate}
+\item Current wealth is $W_{0}>0$ and we'll live for $T$ more years.
+\item We can invest in a risky assets and a riskless asset
+\item The risky asset has known normal distribution of returns
+\item We are allowed to long or short any fractional quantities of assets
+\item We can trade in continuous time $0 \leq t<T$, with no transaction costs
+\item We can consume any fractional amount of wealth at any time
+\item We assume that the consumption utility has constant relative risk-aversion.
+
+\end{enumerate}
+Notation:
+\begin{itemize}
+\item Riskless asset: $d R_{t}=r \cdot R_{t} \cdot d t$
+\item Risky asset: $d S_{t}=\mu \cdot S_{t} \cdot d t+\sigma \cdot S_{t} \cdot d z_{t}$ where $z_{t}$ stands for Geometric Brownian
+\item $\mu>r>0, \sigma>0$
+\item Denote wealth at time $t$ as $W_{t}>0$
+\item Denote the fraction of wealth allocated to risky asset denoted by $\pi\left(t, W_{t}\right)$ and the fraction of wealth in riskless asset will then be $1-\pi\left(t, W_{t}\right)$
+\item Denote the wealth consumption per unit time denoted by $c\left(t, W_{t}\right) \geq 0$
+\item Utility of Consumption function $U(x)=\log (x)$ 
+\end{itemize}
+Formal Problem Statement:
+\begin{itemize}
+\item Write $\pi_{t}, c_{t}$ instead of $\pi\left(t, W_{t}\right), c\left(t, W_{t}\right)$
+\item Process for Wealth $W_{t}$
+$$
+d W_{t}=\left(\left(\pi_{t} \cdot(\mu-r)+r\right) \cdot W_{t}-c_{t}\right) \cdot d t+\pi_{t} \cdot \sigma \cdot W_{t} \cdot d z_{t}
+$$
+\item At any time $t$, we determine optimal $\left[\pi\left(t, W_{t}\right), c\left(t, W_{t}\right)\right]$ to maximize:
+$$
+\mathbb{E}\left[\int_{t}^{T} e^{-\rho(s-t)}\cdot log(c_{s}) \cdot d s+e^{-\rho(T-t)} \cdot B(T) \cdot log(W_{T}) \mid W_{t}\right]
+$$
+\item $\rho \geq 0$ is the utility discount rate, $B(T)=\epsilon^{\gamma}$ is the bequest function  $0<\epsilon \ll 1$)
+\end{itemize}
+We can think this as a continuous-time stochastic control problem.
+\begin{itemize}
+\item State at time $t$ is $\left(t, W_{t}\right)$
+\item Action at time $t$ is $\left[\pi_{t}, c_{t}\right]$
+\item Reward per unit time at time $t$ is $U\left(c_{t}\right)=log(c_t)$
+\item Return at time $t$ is the accumulated discounted Reward:
+$$
+\int_{t}^{T} e^{-\rho(s-t)} \cdot log (c_s)\cdot d s
+$$
+\item We aim to find Policy : $\left(t, W_{t}\right) \rightarrow\left[\pi_{t}, c_{t}\right]$ that maximizes the Expected Return
+\item Note: $c_{t} \geq 0$, but $\pi_{t}$ is unconstrained
+\end{itemize}
+Value Function for a State (under a given policy) is the Expected Return from the State (when following the given policy). We will focus on the optimal value function:
+$$V^{*}\left(t, W_{t}\right)=\max _{\pi, c} \mathbb{E}_{t}\left[\int_{t}^{T} e^{-\rho(s-t)} \cdot log(c_{s}) \cdot d s+e^{-\rho(T-t)} \cdot \epsilon^{\gamma} \cdot log(W_{T})\right]$$
+For $0 \leq t<t_{1}<T$
+$$V^{*}\left(t, W_{t}\right)=\max _{\pi, c} \mathbb{E}_{t}\left[\int_{t}^{t_{1}} e^{-\rho(s-t)} \cdot log(c_{s}) \cdot d s+e^{-\rho\left(t_{1}-t\right)} \cdot V^{*}\left(t_{1}, W_{t_{1}}\right)\right]$$
+$$
+\Rightarrow e^{-\rho t} \cdot V^{*}\left(t, W_{t}\right)=\max _{\pi, c} \mathbb{E}_{t}\left[\int_{t}^{t_{1}} e^{-\rho s} \cdot log(c_{s})\cdot d s+e^{-\rho t_{1}} \cdot V^{*}\left(t_{1}, W_{t_{1}}\right)\right]
+$$
+We rewrite in stochastic differential form and have the HJB formulation
+$$
+\begin{gathered}
+\max _{\pi_{t}, c_{t}} \mathbb{E}_{t}\left[d\left(e^{-\rho t} \cdot V^{*}\left(t, W_{t}\right)\right)+e^{-\rho t} \cdot log(c_{t}) \cdot d t\right]=0 \\
+\Rightarrow \max _{\pi_{t}, c_{t}} \mathbb{E}_{t}\left[d V^{*}\left(t, W_{t}\right)+log(c_{t}) \cdot d t\right]=\rho \cdot V^{*}\left(t, W_{t}\right) \cdot d t
+\end{gathered}
+$$
+We use Ito's Lemma on $d V^{*}$, remove the $d z_{t}$ term since it's a martingale, and divide throughout by $d t$ to produce the HJB Equation in PDE form:
+$$
+\begin{aligned}
+\max _{\pi_{t}, c_{t}}\left[\frac{\partial V^{*}}{\partial t}+\frac{\partial V^{*}}{\partial W}\left(\left(\pi_{t}(\mu-r)\right.\right.\right.&\left.\left.+r) W_{t}-c_{t}\right)+\frac{\partial^{2} V^{*}}{\partial W^{2}} \cdot \frac{\pi_{t}^{2} \sigma^{2} W_{t}^{2}}{2}+log(c_t)\right] \\
+=& \rho \cdot V^{*}\left(t, W_{t}\right)
+\end{aligned}
+$$
+For simplicity:
+$$
+\max _{\pi_{t}, c_{t}} \Phi\left(t, W_{t} ; \pi_{t}, c_{t}\right)=\rho \cdot V^{*}\left(t, W_{t}\right)
+$$
+Note that we are working with the constraints $W_{t}>0, c_{t} \geq 0$ for $0 \leq t<T$\\
+We find optimal $\pi_{t}^{*}, c_{t}^{*}$ by taking partial derivatives of $\Phi\left(t, W_{t} ; \pi_{t}, c_{t}\right)$ w.r.t $\pi_{t}$ and $c_{t}$, and equate to 0 (F.O.C for $\Phi$ ).
+\begin{itemize}
+\item Partial derivative of $\Phi$ with respect to $\pi_{t}$ :
+$$
+\begin{gathered}
+(\mu-r) \cdot \frac{\partial V^{*}}{\partial W_{t}}+\frac{\partial^{2} V^{*}}{\partial W_{t}^{2}} \cdot \pi_{t} \cdot \sigma^{2} \cdot W_{t}=0 \\
+\Rightarrow \pi_{t}^{*}=\frac{-\frac{\partial V^{*}}{\partial W_{t}} \cdot(\mu-r)}{\frac{\partial^{2} V^{*}}{\partial W_{t}^{2}} \cdot \sigma^{2} \cdot W_{t}}
+\end{gathered}
+$$
+\item Partial derivative of $\Phi$ with respect to $c_{t}$ :
+$$
+\begin{gathered}
+-\frac{\partial V^{*}}{\partial W_{t}}+
+\frac{1}{c_{t}^{*}}=0 \\
+\Rightarrow c_{t}^{*}=\left(\frac{\partial V^{*}}{\partial W_{t}}\right)^{-1}
+\end{gathered}
+$$
+\end{itemize}
+
+
+
+\end{document}
