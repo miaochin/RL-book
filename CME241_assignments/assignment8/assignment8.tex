@@ -1,0 +1,46 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 8}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 2}
+Our goal is to identify the optimal supply $S$ that minimizes your Expected Cost $g(S)$, given by the following:
+$$
+\begin{gathered}
+g_{1}(S)=E[\max (x-S, 0)]=\int_{-\infty}^{\infty} \max (x-S, 0) \cdot f(x) \cdot d x=\int_{S}^{\infty}(x-S) \cdot f(x) \cdot d x \\
+g_{2}(S)=E[\max (S-x, 0)]=\int_{-\infty}^{\infty} \max (S-x, 0) \cdot f(x) \cdot d x=\int_{-\infty}^{S}(S-x) \cdot f(x) \cdot d x \\
+g(S)=p \cdot g_{1}(S)+h \cdot g_{2}(S)
+\end{gathered}
+$$
+$$g(S)=p \cdot g_{1}(S)+h \cdot g_{2}(S) = p \cdot \int_{S}^{\infty}(x-S) \cdot f(x) \cdot d x + h \cdot \int_{-\infty}^{S}(S-x) \cdot f(x) \cdot d x $$
+Using integration by parts ($\int u dv = uv -\int v du$):
+$$g(S) = p\cdot (x-S) F(x)\Biggr|_{x=S}^{x=\infty} -p \cdot \int_{S}^{\infty} F(x)dx + h \cdot(S-x)F(x)\Biggr|_{x=-\infty}^{x=S} + h\cdot \int^{S}_{-\infty} F(x)dx$$
+We take derivative of $g(S)$ w.r.t $S$ and equate to 0 (F.O.C):
+$$-p +p \cdot F(S^{*}) + h \cdot F(S^{*}) = 0 $$
+$$\Rightarrow (p+h) F(S^{*}) = p\Rightarrow  F(S^{*}) = \frac{p}{p+h}$$
+$$\Rightarrow S^{*} = F^{-1}(\frac{p}{p+h})$$
+
+
+
+
+
+
+\end{document}
