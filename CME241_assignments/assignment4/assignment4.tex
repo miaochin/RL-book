@@ -11,6 +11,7 @@
 % Useful packages
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{bbm}
 \usepackage{graphicx,float}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
@@ -46,6 +47,42 @@ Because $v_{k-1}(s_1) \geq v_2(s_1)$ and $v_{k-1}(s_2) \geq v_2(s_2) \forall k \
 $$q_k(s_1,a_1) - q_k(s_1, a_2) \geq -2.0 +0.1 \cdot v_{2}(s_1) + 0.4 \cdot v_{2} (s_2)> 0 \text{ } \forall k \geq 3$$
 $$q_k(s_2,a_2) - q_k(s_2, a_1) \geq -2.0 +0.2 \cdot v_{2}(s_1) > 0 \text{ } \forall k \geq 3$$
 Hence $q_k(s_1,a_1) > q_k(s_1, a_2)$ and $q_k(s_2,a_2) > q_k(s_2, a_1) \text{ } \forall k \geq 3 \Rightarrow\pi_k(s_1) = a_1$ and $\pi_k(s_2) = a_2  \text{ }\forall k \geq 3$
+
+\section*{Problem 4 (Two-Stores Inventory Control)}
+We model this as a finite markov decision process. Notation are as follows:\\
+$\alpha_{A}:=\text{on-hand inventory for store A},\text{ } \beta_{A}:=\text{on-order inventory for store A}$\\
+$\alpha_{B}:=\text{on-hand inventory for store B},\text{ } \beta_{B}:=\text{on-order inventory for store B}$\\
+$h_{A}:=\text{holding cost for store A},\text{ } h_{B}:=\text{holding cost for store B}$ (per unit of overnight inventory)\\
+$p_{A}:=\text{stockout cost for store A},\text{ } p_{B}:=\text{holding cost for store B}$ (per unit of missed demand)\\
+$C_{A}:=\text{shelf capacity for store A},\text{ } C_{B}:=\text{shelf capacity for store B}$\\
+$\lambda_{A}:=\text{poisson distribution parameter of deamd of store A}$ \\
+$\lambda_{B}:=\text{poission distribution parameter of demand of store B}$\\
+$K_{1}:=\text{transportation cost from supplier to stores per order},\text{ } K_{2}:=\text{transportation cost between two stores}$\\
+$\theta_{A}:=\text{order quantity for store A},\text{ } \theta_{B}:=\text{order quantity for store B}$ \\
+$\theta_{E}:=\text{transported quantity between two stores.}$ (If $\theta_{E} \leq 0$, which means we transport from store A to store B; otherwise, store B to store A)\\
+$f(\cdot):=$ PMF of demand, $F(\cdot):=$ CMF of demand\\ \\
+Let $\mathcal{S}=\{(\alpha_{A}, \beta_{A},\alpha_{B}, \beta_{B}) : 0 \leq \alpha_{A}+\beta_{A} \leq C_{A},0 \leq \alpha_{B}+\beta_{B} \leq C_{B} \}$ characterize the state space.\\ \\
+Let $\mathcal{A}((\alpha_{A}, \beta_{A}, \alpha_{B}, \beta_{B}))=\{(\theta_{A}, \theta_{B}, \theta_{E}): max\{-\alpha_{A}, -(C_{B}-(\alpha_{B}+\beta_{B})\} \leq \theta_{E} \leq \text{min} \{\alpha_{B},C_{A}-(\alpha_{A}+\beta_{A}) \}, 0 \leq \theta_{A} \leq C_{A}-(\alpha_{A}+\beta_{A}+\theta_{E}), 0 \leq \theta_{B} \leq C_{B}-(\alpha_{B}+\beta_{B}-\theta_{E})\}$ characterize the action space.\\
+Note in the action space, we need to consider the amount of inventories we can move between two stores which is related to the capacity of the stores, on-hand inventory and on-order inventory. Also, we need to notice that the inventories transported between stores would arrive faster (overnight). We suppose we decide the inventories to be transported between two stores first and then decide the inventories to purchase from supplier to the two stores.\\ \\
+The reward transition $\mathcal{R}_{T}(s, a, s^{\prime})$ is as follows:
+$$\mathcal{R}_{T}((\alpha_{A}, \beta_{A}, \alpha_{B}, \beta_{B}), (\theta_{A}, \theta_{B}, \theta_{E}),(\alpha_{A}+\beta_{A}+\theta_{E}-i_{A}, \theta_{A},\alpha_{B}+\beta_{B}-\theta_{E}-i_{B}, \theta_{B} ))=$$
+$$-h_{A}\alpha_{A}-h_{B}\alpha_{B}-K_{2}\mathbbm{1}_{\{\theta_{E} \neq 0\}}-K_{1}\mathbbm{1}_{\{\theta_{A} >0\}}-K_{1}\mathbbm{1}_{\{\theta_{B} >0\}}-h_{A}\theta_{E}\mathbbm{1}_{\{\theta_{E} <0\}}+h_{B}\theta_{E}\mathbbm{1}_{\{\theta_{E}>0\}}$$ for $ 0 \leq i_{A} \leq \alpha_{A}+\beta_{A}+\theta_{E}-1$, $ 0 \leq i_{B} \leq \alpha_{B}+\beta_{B}-\theta_{E}-1$.\\
+Let $R_{c}=-h_{A}\alpha_{A}-h_{B}\alpha_{B}-K_{2}\mathbbm{1}_{\{\theta_{E} \neq 0 \}}-K_{1}\mathbbm{1}_{\{\theta_{A} >0\}}-K_{1}\mathbbm{1}_{\{\theta_{B} >0\}}-h_{A}\theta_{E}\mathbbm{1}_{\{\theta_{E} <0\}}+h_{B}\theta_{E}\mathbbm{1}_{\{\theta_{E}>0\}}$ be the base reward. The base is about the holding cost and transportation cost.\\
+Note that when we transport from one store to another store, this would happen during midnight. At the same time, the transported inventories would not have holding cost to two stores.\\ \\
+The other reward transition function are stated as follows:
+
+$$\mathcal{R}_{T}((\alpha_{A}, \beta_{A}, \alpha_{B}, \beta_{B}), (\theta_{A}, \theta_{B}, \theta_{E}),(0, \theta_{A},\alpha_{B}+\beta_{B}-\theta_{E}-i_{B}, \theta_{B} ))=$$
+$$R_{C}-p_{A}(\sum_{j=\alpha_{A}+\beta_{A}+\theta_{E}+1}^{\infty} f_{\lambda_{A}}(j) \cdot(j-(\alpha_{A}+\beta_{A}+\theta_{E})))$$ for $ 0 \leq i_{B} \leq \alpha_{B}+\beta_{B}-\theta_{E}-1$;\\
+
+$$\mathcal{R}_{T}((\alpha_{A}, \beta_{A}, \alpha_{B}, \beta_{B}), (\theta_{A}, \theta_{B}, \theta_{E}),(\alpha_{A}+\beta_{A}+\theta_{E}-i_{A}, \theta_{A},0, \theta_{B} ))=$$
+$$R_{C} -p_{B}(\sum_{j=\alpha_{B}+\beta_{B}-\theta_{E}+1}^{\infty} f_{\lambda_{B}}(j) \cdot(j-(\alpha_{B}+\beta_{B}-\theta_{E})))$$ for $ 0 \leq i_{A} \leq \alpha_{A}+\beta_{A}+\theta_{E}-1$\\
+
+$$\mathcal{R}_{T}((\alpha_{A}, \beta_{A}, \alpha_{B}, \beta_{B}), (\theta_{A}, \theta_{B}, \theta_{E}),(0, \theta_{A},0, \theta_{B} ))=$$
+$$-R_{C}-p_{A}(\sum_{j=\alpha_{A}+\beta_{A}+\theta_{E}+1}^{\infty} f_{\lambda_{A}}(j) \cdot(j-(\alpha_{A}+\beta_{A}+\theta_{E}))-p_{B}(\sum_{j=\alpha_{B}+\beta_{B}-\theta_{E}+1}^{\infty} f_{\lambda_{B}}(j) \cdot(j-(\alpha_{B}+\beta_{B}-\theta_{E})))$$\\
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment4}{\textcolor{blue}{simple\textunderscore inventory\textunderscore mdp\textunderscore cap\textunderscore two \textunderscore stores.py}}.\\
+We found that if the transportation cost between two stores are high, we would tend to order from supplies, and vice versa. Also, if the holding cost for a store is high, we would avoid having too many inventories to be on-hand. Furthermore, if capacity is high enough, we would like to order to prevent stockout which in reality would occur high cost.\\
+\textcolor{brown}{Maybe my problem formulation can be improved. For the transition probability in the coding part, maybe I can write a more readable one.}
+
 
 
 
