@@ -1,0 +1,79 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 16}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 3}
+Assume we have a finite action space $\mathcal{A}$. Let $\boldsymbol{\phi}(s, a)=\left(\phi_{1}(s, a), \phi_{2}(s, a), \ldots, \phi_{m}(s, a)\right)$ be the features vector for any $s \in \mathcal{N}, a \in \mathcal{A}$. Let $\boldsymbol{\theta}=\left(\theta_{1}, \theta_{2}, \ldots, \theta_{m}\right)$ be an $m$-vector of parameters. Let the action probabilities conditional on a given state $s$ and given parameter vector $\boldsymbol{\theta}$ be defined by the softmax function on the linear combination of features: $\boldsymbol{\phi}(s, a)^{T} \cdot \boldsymbol{\theta}$, i.e.,
+$$
+\pi(s, a ; \boldsymbol{\theta})=\frac{e^{\phi(s, a)^{T} \cdot \boldsymbol{\theta}}}{\sum_{b \in \mathcal{A}} e^{\boldsymbol{\phi}(s, b)^{T} \cdot \boldsymbol{\theta}}}
+$$
+\begin{itemize}
+\item Evaluate the score function $\nabla_{\boldsymbol{\theta}} \log \pi(s, a ; \boldsymbol{\theta})$
+$$ $$
+\item Construct the Action-Value function approximation $Q(s, a ; \boldsymbol{w})$ so that the following key constraint of the Compatible Function Approximation Theorem (for Policy Gradient) is satisfied:
+$$
+\nabla_{\boldsymbol{w}} Q(s, a ; \boldsymbol{w})=\nabla_{\boldsymbol{\theta}} \log \pi(s, a ; \boldsymbol{\theta})
+$$
+where $\boldsymbol{w}$ defines the parameters of the function approximation of the Action-Value function.
+\item Show that $Q(s, a ; \boldsymbol{w})$ has zero mean for any state $s$, i.e. show that
+$$
+\mathbb{E}_{\pi}[Q(s, a ; \boldsymbol{w})] \text { defined as } \sum_{a \in \mathcal{A}} \pi(s, a ; \boldsymbol{\theta}) \cdot Q(s, a ; \boldsymbol{w})=0 \text { for all } s \in \mathcal{N}
+$$
+\end{itemize}
+Answer:
+$$
+\begin{gathered}
+\log \pi(s,a ; \boldsymbol{\theta})=\boldsymbol{\theta} \cdot \boldsymbol{\phi}(s, a)^{T}-\log (\sum_{b \in \mathcal{A}} e^{ \boldsymbol{\phi}(s, b)^{T} \cdot {\theta}})\\
+\frac{\partial \log \pi(s ,a ; \boldsymbol{\theta})}{\partial \theta_{i}}=\phi_{i}(s, a)-\frac{\sum_{b \in \mathcal{A}} \phi_{i}(s, b) \cdot e^{ \boldsymbol{\phi}(s, b)^{T} \cdot {\theta}}}{\sum_{b \in \mathcal{A}} e^{ \boldsymbol{\phi}(s, b)^{T} \cdot {\theta}} }\\
+=\phi_{i}(s, a)-\sum_{b \in \mathcal{A}} \frac{e^{ \boldsymbol{\phi}(s, b)^{T} \cdot {\theta}}}{\sum_{b \in \mathcal{A}} e^{ \boldsymbol{\phi}(s, b)^{T} \cdot {\theta}}  }\cdot \phi_{i}(s, b) \\
+=\phi_{i}(s, a)-\sum_{b \in \mathcal{A}} \pi(s, b ; \boldsymbol\theta) \cdot \phi_{i}(s, b) \\
+=\phi_{i}(s, a)-\mathbb{E}_{\pi}\left[\phi_{i}(s, \cdot)\right]
+\end{gathered}
+$$
+
+$$
+\Longrightarrow
+\nabla_{\theta} \log \pi(s, a, \boldsymbol\theta)=\phi(s, a)-\mathbb{E}_{\pi}[\phi(s, \cdot)]
+$$
+Construct the Action-Value function approximation as follows:\\
+$$
+Q(s, a ; \boldsymbol{w})=\boldsymbol{w}^{T} \cdot \nabla_{\theta} \log \pi(s, a, \boldsymbol{\theta})
+$$
+Then we can satisfy the key constraint of the Compatible Function Approximation Theorem\\
+$$
+\nabla_{\boldsymbol{w}} Q(s, a ; \boldsymbol{w})=\nabla_{\boldsymbol{\theta}} \log \pi(s, a ; \boldsymbol{\theta})
+$$
+And,
+$$
+\begin{gathered}
+\sum_{a \in \mathcal{A}} \pi (s,a  ; \boldsymbol{\theta}) \cdot Q(s, a ; \boldsymbol{w})=\sum_{a \in \mathcal{A}} \pi(s ,a ; \boldsymbol{\theta}) \cdot \boldsymbol{w}^{T} \cdot \nabla_{\theta} \log \pi(s , a, \boldsymbol{\theta}) \\
+=\sum_{a \in \mathcal{A}} \boldsymbol{w}^{T} \cdot \nabla_{\theta} \pi(s, a, \boldsymbol{\theta}) \\
+=\boldsymbol{w}^{T} \cdot \nabla_{\theta}\left(\sum_{a \in \mathcal{A}} \pi(s ,a, \boldsymbol \theta)\right) \\
+=\boldsymbol{w}^{T} \cdot \nabla_{\theta} 1 \\
+= \boldsymbol{w}^{T} \cdot \boldsymbol 0\\
+=0
+\end{gathered}
+$$
+
+
+
+\end{document}
