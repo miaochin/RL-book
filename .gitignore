@@ -11,6 +11,9 @@ __pycache__
 *.egg-info
 
 # LaTeX files
+book/*/*.tex
+book.tex
+*.png
 *.aux
 *.dvi
 *.log

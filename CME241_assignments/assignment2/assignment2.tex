@@ -1,5 +1,8 @@
 \documentclass{article}
 
+\usepackage{blindtext}
+
+
 % Language setting
 % Replace `english' with e.g. `spanish' to change the document language
 \usepackage[english]{babel}
@@ -13,7 +16,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx,float}
 \usepackage{xcolor}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[colorlinks=true, allcolors=brown]{hyperref}
 
 \title{Assignment 2}
 \author{Miao-Chin Yen}
@@ -26,11 +29,11 @@
 \hspace{1em}In this problem, we consider the game of Snakes and Ladders (single-player game) with 100 grids. Also, we assume that there are 6 ladders and 5 snakes. Let $Ladder=\{(1,38), (4,14), (9,31), (28,84),\\ (80, 100), (71, 91)\}$ denote the taking-up route by ladders and $Snake=\{(93,73), (95,75), (87,24), (47,26),\\ (17, 6)\}$ denote the taking-down route by snakes where $(i,j)$ stands for the transition from state $i$ to state $j$. The Markov Process of this game is stated as follows:\\
 \hspace*{1em}(1) Let $\mathcal{S}=\{state: 1\leq state \leq 100 \}$ be the state space and $\mathcal{T}=\{100\}$ be the set of terminal states.\\
 \hspace*{1em}(2) Denote $S_{t}$ as the state for time step $t$.\\
-\hspace*{1em}(3)Denote $\mathcal{P}: \mathcal{N} \times \mathcal{S} \rightarrow[0,1]$ as the Transition Probability Function (source $s \rightarrow$ destination $s^{\prime}$ ) where
+\hspace*{1em}(3) Denote $\mathcal{P}: \mathcal{N} \times \mathcal{S} \rightarrow[0,1]$ as the Transition Probability Function (source $s \rightarrow$ destination $s^{\prime}$ ) where
 $$
 \mathcal{P}\left(s, s^{\prime}\right)=\mathbb{P}\left[S_{t+1}=s^{\prime} \mid S_{t}=s\right] \text { for all } t=0,1,2, \ldots
 $$\\
-\hspace*{1em}(4)Termination: If $S_{T} \in \mathcal{T}$, the process terminates at time step $T$.\\
+\hspace*{1em}(4) Termination: If $S_{T} \in \mathcal{T}$, the process terminates at time step $T$.\\
 For the specific 100 grids game, we can explicitly write the transition probability as follows:\\ 
 \begin{itemize}
 \item $\forall(i,j)\in Ladder\bigcup Snake$:
@@ -47,17 +50,20 @@ $$
 \end{itemize}
 and any other not specified transition probability  is 0.
 \section*{Problem 2}
-\textcolor{blue}{Coding TBD}
-
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment2}{\textcolor{blue}{snakes\textunderscore and\textunderscore ladders\textunderscore mp.py}}.\\
+We do the simulation for 80000 times.
+\begin{center}
+\includegraphics[scale=0.5]{snakes_and_ladders}\\
+\end{center}
 \section*{Problem 3 (Frog Puzzle)}
 We use the same logic in the problem of Snakes and Ladders to solve this problem. Our goal is to calculate the expected number of jumps for the frog to jump from one bank of river to the other bank of river. Hence, we first model this problem as a Markov Process which is stated as follows:\\
 \hspace*{1em}(1) Let $\mathcal{S}=\{state: 0\leq state \leq 10 \}$ be the state space and $\mathcal{T}=\{10\}$ be the set of terminal states.\\
 \hspace*{1em}(2) Denote $S_{t}$ as the state for time step $t$.\\
-\hspace*{1em}(3)Denote $\mathcal{P}: \mathcal{N} \times \mathcal{S} \rightarrow[0,1]$ as the Transition Probability Function (source $s \rightarrow$ destination $s^{\prime}$ ) where
+\hspace*{1em}(3) Denote $\mathcal{P}: \mathcal{N} \times \mathcal{S} \rightarrow[0,1]$ as the Transition Probability Function (source $s \rightarrow$ destination $s^{\prime}$ ) where
 $$
 \mathcal{P}\left(s, s^{\prime}\right)=\mathbb{P}\left[S_{t+1}=s^{\prime} \mid S_{t}=s\right] \text { for all } t=0,1,2, \ldots
 $$\\
-\hspace*{1em}(4)Termination: If $S_{T} \in \mathcal{T}$, the process terminates at time step $T$.\\
+\hspace*{1em}(4) Termination: If $S_{T} \in \mathcal{T}$, the process terminates at time step $T$.\\
 We then explicitly write the transition probability as follows:\\
 \hspace*{1em}$\forall \text{ } 0\leq i\leq 9 $\\
 
@@ -66,14 +72,14 @@ $$
 $$\\
 and any other not specified transition probability is 0.
 We then extend the finite Markov Process to Finite Markov Reward Process to calculate the expected number of jumps.
-t $R_{t}\in \mathcal{D}$ be a time-indexed sequence of Reward random variables for time steps $t=1,2, \ldots$ ($\mathcal{D}=\{-1\}$ in our problem). Clearly, all $\mathcal{P}\left(s, s^{\prime}\right)> 0$ should be associated with reward $R_{t+1}= -1$.\\
-\textcolor{blue}{Coding TBD}
+Let $R_{t}\in \mathcal{D}$ be a time-indexed sequence of Reward random variables for time steps $t=1,2, \ldots$ ($\mathcal{D}=\{-1\}$ in our problem). Clearly, all $\mathcal{P}\left(s, s^{\prime}\right)> 0$ should be associated with reward $R_{t+1}= -1$.\\
+We do the simulation for 30000 times and found the expected frog jumps is 2.8424.\\
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment2}{\textcolor{blue}{frog\textunderscore puzzle\textunderscore mrp.py}}.
 \section*{Problem 4}
-\hspace*{1em} For this game, we want to minimize the steps we need to take to finish the game. Hence, we can set the Rewards model related to steps taken.Let $R_{t}\in \mathcal{D}$ be a time-indexed sequence of Reward random variables for time steps $t=1,2, \ldots$ ($\mathcal{D}=\{0,-1\}$ in our problem). The Transition Probability Function $\mathcal{P}_{R}: \mathcal{N} \times \mathcal{D} \times \mathcal{S} \rightarrow[0,1]$
+\hspace*{1em} For this game, we want to minimize the steps we need to take to finish the game. Hence, we can set the Rewards model related to steps taken. Let $R_{t}\in \mathcal{D}$ be a time-indexed sequence of Reward random variables for time steps $t=1,2, \ldots$ ($\mathcal{D}=\{0,-1\}$ in our problem). The Transition Probability Function $\mathcal{P}_{R}: \mathcal{N} \times \mathcal{D} \times \mathcal{S} \rightarrow[0,1]$
  is specified as follows:\\ $$\mathcal{P}_{R}\left(s, r, s^{\prime}\right)=\mathbb{P}\left[\left(R_{t+1}=r, S_{t+1}=s^{\prime}\right) \mid S_{t}=s\right] \forall t=0,1,2, \ldots$$.\\
 Clearly, for problem 1 with 100 grids, the transition associated with ladders and snakes should be with $R_{t+1} = 0$ and other transitions (transition probability $>$ 0 ) should be with reward $R_{t+1} = -1$\\
-\textcolor{blue}{Coding TBD}
-\section*{Problem 5 (Optional)}
-
+We do the simulation for 80000 times and found the expected number of dice rolls is 23.05.\\
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment2}{\textcolor{blue}{snakes\textunderscore and\textunderscore ladders\textunderscore mrp.py}}.\\
 
 \end{document}
