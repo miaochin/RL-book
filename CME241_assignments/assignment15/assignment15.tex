@@ -1,0 +1,40 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 15}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment15}{\textcolor{blue}{mrp\textunderscore tdmc.py}}.\\
+The result is given as follows:
+\begin{itemize}
+\item Tabular Monte-Carlo
+$$ \{A: 9.571428571428571, B: 5.642857142857143\}$$
+\item MRP
+$$ \{A: 12.93333333333333, B: 9.599999999999998\}$$
+\item Tabular TD(0)
+$$\{A: 12.943540220953924, B: 9.59777231019758\} $$
+\item LSTD
+$$\{A:12.933333333333334, B: 9.600000000000001\}$$
+\end{itemize}
+They don't all give the same value function. MRP, Tabular TD(0) and LSTD give the similar value function and Tabular Monte-Carlo is significantly different from them. MRP should be the base line. Monte-Carlo just does the weighted sum. But in reality, doing average would not give enough information. Some value should be weighted more. Also, it uses trace experience. Therefore,the calculation process is restricted and may cause the value function to be not accurate enough.
+
+
+\end{document}
