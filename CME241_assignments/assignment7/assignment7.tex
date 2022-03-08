@@ -10,6 +10,7 @@
 
 % Useful packages
 \usepackage{amsmath}
+\usepackage{bbm}
 \usepackage{amssymb}
 \usepackage{graphicx,float}
 \usepackage{xcolor}
@@ -113,6 +114,35 @@ $$
 \end{gathered}
 $$
 \end{itemize}
+\section*{Problem 3}
+We consider the finite-horizon and discrete time case.   Suppose there are $T$ days and our objective is to maximize the expected (discounted) lifetime utility of earnings. The notation we'll use are as follows:
+\begin{itemize}
+\item $j_{t}$ denotes if the person has a job or not at day $t$. We use boolean value for $j_{t}$. 1 means that he is employed. 0 means that he is unemployed.
+\item $l_{t}$ denotes the skill level at the start of day $t$.
+\item $\alpha_{t}$ denotes the fraction the person would spend for working if he has a job and $1-\alpha_{t}$ for learning.
+\item $U(\cdot)$ denotes the utility function for earning.
+\item $\rho$ is the discount factor.
+\end{itemize}
+And there are some assumptions in our formulation:
+\begin{itemize}
+\item We assume that if at the start of the day the person's skill level is $l_{t}$, he could only use this level of skill to earn when working.
+\item Same idea as above, we assume that the person's probability to be offered the job back at day $t+1$ depends on skill level at the start of day $t$ ($l_{t}$) although during day $t$ his skill level decays.
+\item We assume that the person would have total of $m$ minutes to work and learn. Also, the decay of his skill level would also happen during only these $m$ minutes.
+\end{itemize}
+Let $a_{t}= \alpha_{t}$ characterize the action we would take at day $t$ and let $s_{t} = (j_t, l_t)$ denote the state at day $t$. The transition is characterized as follows:
+\begin{itemize}
+\item $$\mathcal{P}(j_{t}, j_{t+1})=\begin{cases} 1-h(l_t) & \text { if } (j_{t}, j_{t+1}) = (0,0) \\
+h(l_t)  & \text { if } (j_{t}, j_{t+1}) = (0,1) \\
+p & \text { if } (j_{t}, j_{t+1}) = (1,0) \\
+1-p & \text { if } (j_{t}, j_{t+1}) = (1,1) \\
+\end{cases} \\$$
+\item If $j_{t}=0$, $l_{t+1} = l_{t} e^{-\lambda m}$
+\item If $j_{t}=1$, $l_{t+1} = m\cdot \alpha_{t} \cdot g(l_{t}) $
+\end{itemize}
+Our objective is the expected lifetime earnings(rewards). At day $t$, we would decide $\alpha_{t}$ to maximize the follwing function:
+$$\sum_{i=t}^{T} e^{-\rho (i-t)} \mathbbm{1}_{\{j_{i}=1\}} \cdot U(\alpha_{i}\cdot m \cdot f(l_{i}))$$
+ 
+
 
 
 
