@@ -1,0 +1,49 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 12}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+\
+\section*{Problem 2}
+
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment12}{\textcolor{blue}{td\textunderscore lambda\textunderscore prediction.py}}.
+\section*{Problem 3}
+$$G_{t}-V\left(S_{t}\right)=\sum_{u=t}^{T-1} \gamma^{u-t} \cdot\left(R_{u+1}+\gamma \cdot V\left(S_{u+1}\right)-V\left(S_{u}\right)\right)$$
+Proof:\\
+$$G_{t}-V(S_{t}) = R_{t+1}+\gamma \cdot R_{t+2}+\gamma^{2} \cdot R_{t+3}+...+\gamma^{T-t-1} \cdot R_{T} - V(S_{t})+ \sum_{j=1}^{T-t} \gamma^{j} \cdot [V(S_{t+j})-V(S_{t+j})]$$
+$$= \textcolor{blue}{R_{t+1}}+ \textcolor{brown}{\gamma \cdot R_{t+2}}+\gamma^{2} \cdot R_{t+3}+...+\gamma^{T-t-1} R_{T} + $$
+$$ 
+\textcolor{blue}{-V(S_{t})+\gamma \cdot V(S_{t+1})} \textcolor{brown}{-\gamma \cdot V(S_{t+1}) + \gamma^{2} \cdot  V(S_{t+2}) }-\gamma^{2} V(S_{t+2}) + ... + \gamma^{T-t}V(S_{T})- \gamma^{T-t}V(S_{T})$$
+We can reorder these terms.
+$$G_{t}-V(S_{t}) = R_{t+1} + \gamma\cdot V(S_{t+1})-V(S_{t}) + \gamma \cdot R_{t+2} + \gamma^{2}\cdot V(S_{t+2})-\gamma\cdot V(S_{t+1})$$
+$$+ ... +\gamma^{T-t-1} R_{T} + \gamma^{T-t}\cdot V(S_{T})-\gamma^{T-t-1}\cdot V(S_{T-1})$$
+$$=\sum_{u=t}^{T-1} \gamma^{u-t} \cdot\left(R_{u+1}+\gamma \cdot V\left(S_{u+1}\right)-V\left(S_{u}\right)\right)$$
+\section*{Problem 4}
+We again test on frog puzzle problem in assignment 2. Since we will use Monte-Carlo and the SimpleInventoryMRPFinite is not episodic. Therefore, we can not get trace experiences from this easily. I remembered that Sven told me Monte Carlo can only be applied to episodic process.\\
+Reference   \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment12}{\textcolor{blue}{td\textunderscore lambda\textunderscore prediction.py}}and \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment12}{\textcolor{blue}{frog\textunderscore puzzle\textunderscore mrp.py}}\\
+We notice that when we are given more data (traces), we would get a solution  close to the one given by DP.
+We test for different $\lambda$ and the result is as follows. As $\lambda$ is getting closer to 1, the value convergence becomes lower.(The distance between the solution we get and the actual solution becomes higher. ) I think that when $\lambda$ gets closer to 1, it is like Monte-Carlo method which is weighted sum method. Hence, our result is supported. We also uses the script we have in assignment 11 and found that $TD(1)$ behaves just like Monte-Carlo and $TD(0)$ behaves just like TD method. However, the distance is a little bit larger than expected. I think this is the same issue as in assignment 11.
+\begin{center}
+\includegraphics[scale=0.5]{lambda}
+\end{center} 
+
+
+
+\end{document}
