@@ -20,7 +20,32 @@
 
 \begin{document}
 \maketitle
-
+\section*{Problem 1}
+We can spend money to invest into risky asset and sell the risky asset to get cash with no transaction cost. Hence, we assume that we would sell the risky asset at the end of day and then take actions to go to next state.\\
+We then characterize the action space. Our decisions are how much to invest in risky assets and how much to borrow from another bank. Let $\mathcal{A}_{t}$ denote the action space for time step $t$. $\mathcal{A}_{t} =\{(i_{t}, b_{t})\} $ where $i_{t}$ stands for the amount to invest in risky asset and $b_{t}$ stands for the amount to borrow from the bank.\\ We then characterize the state space. Let $\mathcal{S}_{t}$ denote the action space for time step $t$. $\mathcal{S}_{t} =\{(x_{t}, l_{t}, w^{\prime}_{t}, z_{t})\}$.
+\begin{itemize}
+\item $x_{t}$ is the cash we get from selling the previous day's risky asset.
+\item $l_{t}$ is the amount of money we borrow from the bank.
+\item $w^{\prime}_{t}$ is the amount of withdrawal request we fail to fulfill.
+\item $z_{t}$ is the value of the risky asset. (per share)
+\end{itemize}
+Next, we specify some constraints.\\
+Let $c_{t}$ be the amount of cash we need have at the start of time step $t$. By assumption, any mount of regulator penalty can be immediately paid and we will be penalized if $c_{t} \in [0, C)$. Denote the maximum amount of penalty we need to pay is $c_{max}$. ($c_{max}$ is close to 0). Hence,
+\begin{itemize}
+\item $c_{t} \geq c_{max}$.
+\item $x_{t} + b_{t} \geq c_{max}$. Our net cash should enable us to pay the penalty.
+\item $x_{t} + b_{t}-i_{t}z_{t} \geq c_{max}$. Our net cash should enable us to pay the penalty.(Consider the amount of risky asset we are going to invest.)
+\end{itemize}
+The action space should satisfies the above constraints. We further assume the deposit at time step $t$ to be $d_{t}$ and the withdraw request be $w_{t}$ \\
+State transitions are as follows:
+\begin{itemize}
+\item $z_{t}\rightarrow z_{t+1}$
+\item $l_{t+1} = (l_{t}+b_{t})(1+R)$
+\item $x_{t+1} = max(x_{t} + b_{t}-i_{t}z_{t}-K cot(\frac{\pi\cdot min(x_{t} + b_{t}-i_{t}z_{t}, C)}{2C}) + d_{t+1}-w_{t+1},0) + i_{t}\cdot z_{t+1}$
+\item $w^{\prime}_{t+1} = max(-(x_{t} + b_{t}-i_{t}z_{t}-K cot(\frac{\pi\cdot min(x_{t} + b_{t}-i_{t}z_{t}, C)}{2C}) + d_{t+1}-w_{t+1}),0)$
+\end{itemize}
+Let $U(\cdot)$ be the utility function. Reward on time step $1\leq t\leq T-1$ is 0. On time step $T$, reward is $U(x_{T} -l_{T})$.\\
+Because the transition probability seems to be complex, it may be suitable to use RL to solve this problem.
 \section*{Problem 2}
 Our goal is to identify the optimal supply $S$ that minimizes your Expected Cost $g(S)$, given by the following:
 $$
@@ -38,7 +63,7 @@ $$-p +p \cdot F(S^{*}) + h \cdot F(S^{*}) = 0 $$
 $$\Rightarrow (p+h) F(S^{*}) = p\Rightarrow  F(S^{*}) = \frac{p}{p+h}$$
 $$\Rightarrow S^{*} = F^{-1}(\frac{p}{p+h})$$
 
-
+We can frame this problem in terms of a call/put options portfolio problem. $S$ is the strike price. $g_1(S)$ is a call option and $g_2(S)$ is a put option.
 
 
 
