@@ -34,10 +34,15 @@ Invest $z$ dollars in risky asset and $1-z$ dollars in riskless asset. Let $W$ d
 Our goal is to maximize $E[U(W)]$.
 $$ \max_{z} E(U(W)) = 1+r+z(\mu-r) -\frac{\alpha}{2}(z^2\sigma^{2} + (1+r+z(\mu-r))^2 )  $$
 F.O.C:
-$$ \mu-r -\frac{\alpha}{2}(2z\sigma^2 + 2(\mu-r)(1+r+z(\mu-r)))=0$$
-$$\mu-r -\alpha z \sigma^2 -\alpha (\mu-r)(1+r)-\alpha z(\mu-r)^2 = 0$$
-$$z(-\alpha \sigma^2 - \alpha(\mu-r)^2) = (\mu-r)(\alpha + \alpha r-1) $$
-$$z= \frac{(\mu-r)(\alpha + \alpha r-1)}{-\alpha \sigma^2 - \alpha(\mu-r)^2}$$
+$$ \mu-r -\frac{\alpha}{2}(2z^{*}\sigma^2 + 2(\mu-r)(1+r+z^{*}(\mu-r)))=0$$
+$$\mu-r -\alpha z^{*} \sigma^2 -\alpha (\mu-r)(1+r)-\alpha z^{*}(\mu-r)^2 = 0$$
+$$z^{*}(-\alpha \sigma^2 - \alpha(\mu-r)^2) = (\mu-r)(\alpha + \alpha r-1) $$
+$$z^{*}= \frac{(\mu-r)(\alpha + \alpha r-1)}{-\alpha \sigma^2 - \alpha(\mu-r)^2}$$
+Let $\mu=0.3,\text{ }r = 0.05,\text{ }\sigma = 0.2$:
+\begin{center}
+\includegraphics[scale=0.25]{risk_aversion}
+\end{center}
+We can see that as our risk aversion level increases (we are afraid of risks), we would tend to invest in riskless asset.
 \section*{Problem 3}
 (a) Write down the two outcomes for wealth $W$ at the end of your single bet of $f \cdot W_{0}$
 \begin{itemize}
@@ -52,16 +57,18 @@ $$z= \frac{(\mu-r)(\alpha + \alpha r-1)}{-\alpha \sigma^2 - \alpha(\mu-r)^2}$$
 (c) Write down $\mathbb{E}[\log (W)]$.
 $$\mathbb{E}[\log (W)] = p\cdot log(f\cdot W_0 \cdot \alpha + W_0) + q \cdot log(-f\cdot W_0 \cdot \beta + W_0)$$
 (d) Take the derivative of $\mathbb{E}[\log (W)]$ with respect to $f$.\\
-$$ p \cdot \frac{W_0 \cdot \alpha}{f\cdot W_0 \cdot \alpha + W_0} + q \cdot \frac{W_0 \cdot \beta}{f\cdot W_0 \cdot \beta + W_0}$$
+$$ p \cdot \frac{W_0 \cdot \alpha}{f\cdot W_0 \cdot \alpha + W_0} + q \cdot \frac{W_0 \cdot \beta}{f\cdot W_0 \cdot \beta - W_0}$$
 (e) Set this derivative to 0 to solve for $f^{*}$. Verify that this is indeed a maxima by evaluating the second derivative at $f^{*}$. This formula for $f^{*}$ is known as the Kelly Criterion.\\
-$$ p \cdot \frac{W_0 \cdot \alpha}{f^*\cdot W_0 \cdot \alpha + W_0} + q \cdot \frac{W_0 \cdot \beta}{f^*\cdot W_0 \cdot \beta + W_0} = 0$$
-$$ f^*\cdot p \cdot\alpha \cdot \beta \cdot W_{0}^{2} + p \cdot  \alpha \cdot W_{0}^{2} = -f^* \cdot q  \cdot \alpha \cdot \beta \cdot W_{0}^{2} - q \cdot \beta \cdot W_{0}^{2} $$
-$$f^* = \frac{-p \cdot \alpha W_{0}^{2}-q\cdot \beta W_{0}^{2}}{W_{0}^{2}\cdot \alpha \cdot \beta} = \frac{-p \cdot \alpha -q\cdot \beta }{\alpha \cdot \beta}$$
+$$ p \cdot \frac{W_0 \cdot \alpha}{f^*\cdot W_0 \cdot \alpha + W_0} + q \cdot \frac{W_0 \cdot \beta}{f^*\cdot W_0 \cdot \beta - W_0} = 0$$
+$$ f^*\cdot p \cdot\alpha \cdot \beta \cdot W_{0}^{2} - p \cdot  \alpha \cdot W_{0}^{2} = -f^* \cdot q  \cdot \alpha \cdot \beta \cdot W_{0}^{2} - q \cdot \beta \cdot W_{0}^{2} $$
+$$f^* = \frac{p \cdot \alpha W_{0}^{2}-q\cdot \beta W_{0}^{2}}{W_{0}^{2}\cdot \alpha \cdot \beta} = \frac{p \cdot \alpha -q\cdot \beta }{\alpha \cdot \beta}$$
 Second derivative:
-$$-\frac{p\cdot (w_0\cdot\alpha)^2}{(f\cdot W_0 \cdot \alpha+W_0)^2}-\frac{q\cdot (w_0\cdot\beta)^2}{(f\cdot W_0 \cdot \beta+W_0)^2}$$
+$$-\frac{p\cdot (w_0\cdot\alpha)^2}{(f\cdot W_0 \cdot \alpha+W_0)^2}-\frac{q\cdot (w_0\cdot\beta)^2}{(f\cdot W_0 \cdot \beta-W_0)^2}$$
 Since
-$$-\frac{p\cdot (w_0\cdot\alpha)^2}{(f^{*}\cdot W_0 \cdot \alpha+W_0)^2}-\frac{q\cdot (w_0\cdot\beta)^2}{(f^{*}\cdot W_0 \cdot \beta+W_0)^2} < 0,$$
-this is indeed a maxima.
+$$-\frac{p\cdot (w_0\cdot\alpha)^2}{(f^{*}\cdot W_0 \cdot \alpha+W_0)^2}-\frac{q\cdot (w_0\cdot\beta)^2}{(f^{*}\cdot W_0 \cdot \beta-W_0)^2} < 0,$$
+this is indeed a maxima.\\
+(f)$$ f^* = \frac{p \cdot \alpha -q\cdot \beta }{\alpha \cdot \beta} $$
+ Clearly, if $\alpha$ is higher, we would get more back if we win the bet. If we only focus on the numerator, we can see that as $\alpha$ increases, we would bet more. Same idea is applied for $\beta$. For probability $p$, if $p$ is higher, we would have a higher chance to get more money. Hence, we would like to bet more.
 
 
 
