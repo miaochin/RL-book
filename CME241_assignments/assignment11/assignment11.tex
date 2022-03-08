@@ -1,0 +1,39 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 11}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment11}{\textcolor{blue}{tabular\textunderscore mc\textunderscore prediction.py}}.
+\section*{Problem 2}
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment11}{\textcolor{blue}{tabular\textunderscore td\textunderscore prediction.py}}.
+
+\section*{Problem 3}
+We test on frog puzzle problem in assignment 2. Since we will use Monte-Carlo and the SimpleInventoryMRPFinite is not episodic. Therefore,  we can not get trace experiences from this easily. I remembered that Sven told me Monte Carlo can only be applied to episodic process.\\
+Reference   \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment11}{\textcolor{blue}{tabular\textunderscore mc\textunderscore prediction.py}}, \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment11}{\textcolor{blue}{tabular\textunderscore td\textunderscore prediction.py}} and \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment11}{\textcolor{blue}{frog\textunderscore puzzle\textunderscore mrp.py}}. We show the result at the end of the script. We found that the pattern are the same. For example, if $V(a) > V(b)$ using tabular Monte-Carlo, we have  $V(a) > V(b)$ using Monte-Carlo Function Approximation. Same result is applied to TD method. But there is some difference between the values. Maybe because the function approximation I use is not good enough. Notice that the solution we get from tabular version matches which is gotten by DP algorithm.
+
+
+
+
+
+
+
+\end{document}
