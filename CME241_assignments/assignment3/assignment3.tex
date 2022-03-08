@@ -61,8 +61,35 @@ $$
 and the optimal deterministic policy $\pi_{D}(s)= 0.25 \text{ }\forall s \in \mathcal{S}$
 
 \section*{Problem 3}
-\textcolor{blue}{TBD}
-
+Let the state space $\mathcal{S}=\{s \mid 0 \leq s \leq n\}$. State $s$ means that the frog is sitting on lilypad numbered $s$. Terminal state space: $\mathcal{T}=\{0, n\}.$ The action space $\mathcal{A}=\{A, B\}$ which stands for the two choices of croak sounds. The state transitions are as follows:
+$$
+\begin{gathered}
+\mathcal{P}(s, A, s^{\prime}) = \mathbb{P}[S_{t+1} = s^{\prime}| S_{t} = s, A_{t} = A] \text { for } 1 \leq s \leq n-1= \begin{cases}\frac{s}{n} & \text { for } s^{\prime}=s-1 \\
+\frac{n-s}{n} & \text { for } s^{\prime}=s+1 \\
+0 & \text { otherwise }\end{cases} \\
+\mathcal{P}(s, B, s^{\prime}) =  \mathbb{P}[S_{t+1} = s^{\prime}| S_{t} = s, A_{t} = B] \text { for } 1 \leq s \leq n-1= \begin{cases}\frac{1}{n} & \text { for all } 0 \leq s^{\prime} \leq n \text { and } s^{\prime} \neq s \\
+0 & \text { for } s^{\prime}=s\end{cases}
+\end{gathered}
+$$
+The reward function $R\left(s, a, s^{\prime}\right)$ is as follows:
+$$
+R\left(s, a, s^{\prime}\right) \text { for } 1 \leq s \leq n-1, a \in\{A, B\}= \begin{cases}1 & \text { for } s^{\prime}=n \\ 0 & \text { otherwise }\end{cases}
+$$
+Let discount factor to be 0.9. We have the following graphs.\\
+n=3:
+\begin{center}
+\includegraphics[scale=0.3]{lilypadnumber_3}
+\end{center}
+n=6:
+\begin{center}
+\includegraphics[scale=0.3]{lilypadnumber_6}
+\end{center}
+n=9:
+\begin{center}
+\includegraphics[scale=0.3]{lilypadnumber_9}
+\end{center}
+We found that for $1\leq s\leq n-2$, the frog should croak B. For $s=n-1$, it should croak A.\\
+Reference \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment3}{\textcolor{blue}{croaking\textunderscore on\textunderscore lilypads\textunderscore mdp.py}}.
 \section*{Problem 4}
 MDP State-Value Function Bellman Optimality Equation:
 $$
