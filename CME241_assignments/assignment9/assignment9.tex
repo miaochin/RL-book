@@ -1,0 +1,125 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx,float}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 9}
+\author{Miao-Chin Yen}
+
+\begin{document}
+\maketitle
+
+
+\section*{Problem 2}
+Temporary (LPT) Price Impact Model formulated by Bertsimas and Lo. The LPT model is described below for all $t=0,1, \ldots T-1$ :
+$$
+\begin{gathered}
+P_{t+1}=P_{t} \cdot e^{Z_{t}} \\
+X_{t+1}=\rho \cdot X_{t}+\eta_{t} \\
+Q_{t}=P_{t} \cdot\left(1-\beta \cdot N_{t}-\theta \cdot X_{t}\right)
+\end{gathered}
+$$
+where $Z_{t}$ are independent and identically distributed random variables with mean $\mu_{Z}$ and variance $\sigma_{Z}^{2}$ for all $t=0,1, \ldots, T-1, \eta_{t}$ are independent and identically distributed random variables with mean 0 for all $t=0,1, \ldots, T-1, Z_{t}$ and $\eta_{t}$ are independent of each other for all $t=0,1, \ldots, T-1$, and $\rho, \beta, \theta$ are given constants. The model assumes no risk-aversion (Utility function is the identity function) and so, the objective is to maximize the Expected Total Sales Proceeds over the finitehorizon up to time $T$ (discount factor is 1). In your derivation, use the same methodology as we followed for the Simple Linear Price Impact Model with no Risk-Aversion.\\
+\textit{Sol.}\\
+Denote Value Function for policy $\pi$ as:
+$$
+V_{t}^{\pi}\left(\left(P_{t}, X_{t}, R_{t}\right)\right)=\mathbb{E}_{\pi}\left[\sum_{i=t}^{T} N_{i} \cdot P_{i}\left(1-\beta \cdot N_{i} - \theta X_{i}\right) \mid\left(P_{t}, X_{t}, R_{t}\right)\right]
+$$
+Denote Optimal Value Function as $V_{t}^{*}\left(\left(P_{t}, X_{t}, R_{t}\right)\right)=\max _{\pi} V_{t}^{\pi}\left(\left(P_{t}, X_{t}, R_{t}\right)\right)$\\
+Optimal Value Function satisfies the Bellman Equation $(\forall \text{ } 0 \leq t<T-1)$ :
+$$
+\begin{gathered}
+V_{t}^{*}\left(\left(P_{t},X_{t}, R_{t}\right)\right)=\max _{N_{t}}\left\{N_{t}P_{t}\left(1-\beta \cdot N_{t}- \theta X_{t}\right)+\mathbb{E}\left[V_{t+1}^{*}\left(\left(P_{t+1},X_{t+1}, R_{t+1}\right)\right)\right]\right\} \\
+V_{T-1}^{*}\left(\left(P_{T-1},X_{T-1}, R_{T-1}\right)\right)=N_{T-1}P_{T-1}\left(1-\beta N_{T-1} - 
+\theta \cdot X_{T-1}\right)=R_{T-1}P_{T-1}\left(1-\beta R_{T-1} - 
+\theta \cdot X_{T-1}\right)
+\end{gathered}
+$$
+From the above, we can infer $V_{T-2}^{*}\left(\left(P_{T-2}, X_{T-2}, R_{T-2}\right)\right)$ as:
+$$
+\max _{N_{T-2}} \left\{N_{T-2}P_{T-2}\left(1-\beta N_{T-2} - 
+\theta \cdot X_{T-2}\right)+\mathbb{E}\left[R_{T-1}P_{T-1}\left(1-\beta R_{T-1} - 
+\theta \cdot X_{T-1}\right)\right]\right\}
+$$
+$$
+=\max _{N_{T-2}} \left\{N_{T-2}P_{T-2}\left(1-\beta N_{T-2} - 
+\theta \cdot X_{T-2}\right)+\mathbb{E}\left[( R_{T-2}-N_{T-2} ) P_{T-1}\left(1-\beta ( R_{T-2}-N_{T-2} )  - 
+\theta \cdot X_{T-1}\right)\right]\right\}
+$$
+Since $P_{T-1}=P_{T-2} \cdot e^{Z_{T-2}} $ and $X_{T-1}=\rho \cdot X_{T-2}+\eta_{T-2}$, our objective function can be written as follows:
+$$
+=\max _{N_{T-2}} \{N_{T-2}P_{T-2}\left(1-\beta N_{T-2} - 
+\theta \cdot X_{T-2}\right)+$$
+$$\mathbb{E}\left[( R_{T-2}-N_{T-2} ) \cdot P_{T-2} \cdot e^{Z_{T-2}}\left(1-\beta ( R_{T-2}-N_{T-2} ) - \theta \cdot (\rho \cdot X_{T-2}+\eta_{T-2})\right)\right]\}
+$$
+Since $\mathbb{E}[e^{Z_{T-2}}] = e^{\mu_z + \frac{\sigma^2}{2}}$ and $\mathbb{E}[
+\eta_{T-2}] = 0$, our objective function is as follows (denote $e^{\mu_z + \frac{\sigma^2}{2}}$ as $q$ ):\\
+$$\max_{N_{T-2}}\{(1-q)N_{T-2}P_{T-2}-\beta \cdot (1+q)N_{T-2}^2 P_{T-2} -\theta(1-\rho \cdot q)X_{T-2}P_{T-2}N_{T-2}$$  $$+  q \cdot R_{T-2} P_{T-2}-\beta q R_{T-2}^2P_{T-2} + 2\beta q N_{T-2}R_{T-2} P_{T-2} -\rho \cdot  \theta q X_{T-2}R_{T-2}P_{T-2}$$
+Take derivative with respect to $N_{T-2}$:\\
+$$ P_{T-2}(1-q)-2\beta(1+q)N_{T-2}^{*}P_{T-2}-\theta X_{T-2}P_{T-2}(1-\rho q) + 2 \beta q R_{T-2}P_{T-2 = 0}$$
+$$\Rightarrow 2\beta (1+q)N_{T-2}^{*} = (1-q)+2\beta q R_{T-2} -\theta (1-\rho q)X_{T-2}$$
+$$ \Rightarrow N_{T-2}^{*} =\frac{(1-q)+2\beta q R_{T-2} -\theta (1-\rho q)X_{T-2}}{2\beta (1+q)} $$
+$$  = \frac{1-q}{2\beta(1+q)} + \frac{q}{1+q}R_{T-2} - \frac{\theta (1-\rho q)}{2\beta (1+q)} X_{T-2}$$
+$$  = c^{(1)}_{T-2} + c^{(2)}_{T-2}R_{T-2} +c^{(3)}_{T-2}X_{T-2}$$
+We then substitute $N^{*}_{T-2}$ into $V_{T-2}^{*}((P_{T-2},X_{T-2}, R_{T-2}))$
+
+$$
+\begin{aligned}
+V_{T-2}^{*}\left({P}_{T-2}, X_{T-2}, R_{T-2}\right)=& q {P}_{T-2}\left[a_{T-2}+b_{T-2} X_{T-2}+c_{T-2} X_{T-2}^{2}\right.\\
+&\left.+d_{T-2} X_{T-2} R_{T-2}+e_{
+T-2} R_{T-2}+f_{T-2} R_{T-2}^{2}\right]
+\end{aligned}
+$$
+where
+$$
+\begin{aligned}
+&a_{T-2}=c^{(1)}_{T-2}\left(1+\beta c^{(1)}_{T-2}\right)-q c^{(1)}_{T-2}\left(1-\beta c^{(1)}_{T-2}\right) \\
+&b_{T-2}=(1-q) c^{(3)}_{T-2} \\
+&c_{T-2}=c^{(3)}_{T-2}\left(\beta c^{(3)}_{T-2}+\theta\right)-q c^{(3)}_{T-2}\left(\theta \rho-\beta c^{(3)}_{T-2}\right) \\
+&d_{T-2}=\theta(1+\rho) c^{(2)}_{T-2}\\
+&e_{T-2}=2 c^{(2)}_{T-2} \\
+&f_{T-2}=\beta c^{(2)}_{T-2}
+\end{aligned}
+$$
+Using backward induction, 
+$$
+N_{T-k}^{*}=c^{(1)}_{T-k} +c^{(2)}_{T-k} R_{T-k}+c^{(3)}_{T-k} X_{T-k}
+$$
+where
+$$
+c^{(3)}_{T-k}=\frac{q \rho d_{k-1}-\theta}{2\left(\beta+q f_{k-1}\right)}, \quad c^{(2)}_{T-k}=\frac{q f_{k-1}}{\beta+q f_{k-1}}, \quad c^{(1)}_{T-k}=\frac{q e_{k-1}-1}{2\left(\beta+q f_{k-1}\right)} .
+$$
+Hence
+$$
+\begin{aligned}
+V_{T-k}\left({P}_{T-k}, X_{T-k}, R_{T-k}\right)=& q {P}_{T-k}\left[a_{T-k}+b_{T-k} X_{T-k}+c_{T-k} X_{T-k}^{2}\right.\\
+&\left.+d_{T-k} X_{T-k} R_{T-k}+e_{T-k} R_{T-k}+f_{T-k} R_{T-k}^{2}\right]
+\end{aligned}
+$$
+where
+$$
+\begin{array}{ll}
+a_{T-k} & =c^{(1)}_{T-k}\left(1+\beta c^{(1)}_{T-k}\right)+q\left(a_{T-k-1}+\sigma_{\eta}^{2} c_{T-k-1}\right)-q c^{(1)}_{T-k}\left(e_{T-k-1}-c^{(1)}_{T-k} f_{T-k-1}\right), \\
+b_{T-k} & =q \rho b_{T-k-1}-c^{(3)}_{T-k}\left(q e_{T-k-1}-1\right), \\
+c_{t-k} & =c^{(3)}_{T-k}\left(\beta c^{(3)}_{T-k}+\theta\right)+q \rho^{2} c_{T-k-1}-q c^{(3)}_{T-k}\left(\rho d_{T-k-1}-c^{(3)}_{T-k} f_{k-1}\right), \\
+d_{T-k} & =\theta c^{(2)}_{T-k}+q \rho d_{T-k-1}\left(1-c^{(2)}_{T-k}\right), \\
+e_{T-k} & =c^{(2)}_{T-k}+q\left(1-c^{(2)}_{T-k}\right) e_{T-k-1}, \\
+f_{T-k} & =\beta c^{(2)}_{T-k} .
+\end{array}
+$$
+Reference   \href{https://github.com/miaochin/RL-book/tree/master/CME241_assignments/assignment9}{\textcolor{blue}{optimal\textunderscore order\textunderscore execution\textunderscore LPT.py}}
+
+
+\end{document}
